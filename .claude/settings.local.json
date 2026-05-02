@@ -1,0 +1,26 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://localhost:11434",
+    "ANTHROPIC_AUTH_TOKEN": "ollama",
+    "ANTHROPIC_API_KEY": ""
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(npx create-next-app@latest travelagent --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :3000)",
+      "Bash(taskkill *)",
+      "Bash(/taskkill *)",
+      "Bash(powershell *)",
+      "Bash(Stop-Process *)",
+      "Bash(wmic process *)",
+      "Bash(node_modules/.bin/next dev *)",
+      "Bash(npx next *)",
+      "Bash(cd \"D:\\\\\\\\TravelAgent\\\\\\\\travelagent\")"
+    ]
+  }
+}

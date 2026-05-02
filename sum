@@ -1,0 +1,57 @@
+# Tool Usage Rules
+
+## When to use which tool
+- **Read** — read any file. Never use `cat` or `bash` to read files.
+- **Edit** — modify existing files. Never use `sed` or `bash` to edit.
+- **Write** — create new files from scratch.
+- **Bash** — run shell commands only (builds, installs, tests). Not for reading/editing.
+- **Grep** — search inside files. Never use `bash grep`.
+- **Glob** — find files by name pattern (e.g. `**/*.py`).
+
+## Order of operations
+1. Always **Read** a file before editing it.
+2. Use **Glob** or **Grep** to find files if unsure where they are.
+3. Use **Edit** for changes, **Write** only for brand new files.
+4. Never assume file contents — always Read first.
+
+---
+
+## CRITICAL: Tool Call Format
+
+You MUST call tools using EXACTLY this JSON format inside `<tool_call>` tags:
+
+<tool_call>
+{"name": "Bash", "arguments": {"command": "ls -la"}}
+</tool_call>
+
+### More examples:
+
+<tool_call>
+{"name": "Read", "arguments": {"file_path": "/absolute/path/to/file.py"}}
+</tool_call>
+
+<tool_call>
+{"name": "Edit", "arguments": {"file_path": "/path/to/file.py", "old_string": "foo", "new_string": "bar"}}
+</tool_call>
+
+<tool_call>
+{"name": "Write", "arguments": {"file_path": "/path/to/newfile.py", "content": "print('hello')"}}
+</tool_call>
+
+<tool_call>
+{"name": "Grep", "arguments": {"pattern": "def my_func", "path": "/project/src"}}
+</tool_call>
+
+<tool_call>
+{"name": "Glob", "arguments": {"pattern": "**/*.py"}}
+</tool_call>
+
+### Rules
+- Content inside `<tool_call>` MUST be valid JSON with `"name"` and `"arguments"` keys
+- Do NOT use `<parameter=key>value</parameter>` style — use JSON `"arguments"` object only
+- Do NOT mix XML and JSON — pure JSON only inside the tags
+- Do NOT wrap tool calls in markdown code blocks (no triple backticks)
+- Multiple tools = multiple separate `<tool_call>` blocks
+- Write reasoning text BEFORE the tool call, never inside it
+- Always use absolute file paths (e.g. `/Users/you/project/file.py`, not `./file.py`)
+- Always use tools and run commands
