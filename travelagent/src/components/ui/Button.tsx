@@ -40,7 +40,7 @@ export function Button({
       whileTap={{ scale: 0.98 }}
       className={cn(baseStyles, variants[variant], sizes[size], className)}
       disabled={disabled || isLoading}
-      {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+      {...(({ onDrag, onDragStart, onDragEnd, onAnimationStart, onAnimationEnd, onAnimationIteration, ...rest }) => rest)(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
     >
       {isLoading ? (
         <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
