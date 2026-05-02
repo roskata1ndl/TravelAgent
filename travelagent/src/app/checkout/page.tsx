@@ -55,43 +55,6 @@ export default function CheckoutPage(): import("react/jsx-runtime").JSX.Element 
     setIsProcessing(false);
   };
 
-  if (currentStep === 'confirmation') {
-    return (
-      <div className="min-h-screen pt-20">
-        <section className="py-20">
-          <div className="max-w-xl mx-auto px-6 lg:px-8 text-center">
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
-              <div className="w-20 h-20 rounded-full bg-[#0f4c81]/10 flex items-center justify-center mx-auto mb-6">
-                <Check className="w-10 h-10 text-[#0f4c81]" />
-              </div>
-              <h1 className="text-3xl font-semibold text-[#1a1a2e] mb-4">Order confirmed!</h1>
-              <p className="text-[#6b7280] mb-2">
-                Thank you for your purchase. A confirmation email has been sent to:
-              </p>
-              <p className="text-[#1a1a2e] font-medium mb-8">{shippingInfo.email}</p>
-              <div className="bg-[#f8f9fa] rounded-xl p-6 mb-8 text-left">
-                <h3 className="font-semibold text-[#1a1a2e] mb-4">Order details</h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-[#6b7280]">Order number</span>
-                    <span className="text-[#1a1a2e] font-medium">#TA-{Date.now().toString().slice(-6)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#6b7280]">Estimated delivery</span>
-                    <span className="text-[#1a1a2e]">5-7 business days</span>
-                  </div>
-                </div>
-              </div>
-              <Link href="/shop">
-                <Button size="lg">Continue Shopping</Button>
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen pt-20 bg-[#f8f9fa]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
@@ -116,8 +79,8 @@ export default function CheckoutPage(): import("react/jsx-runtime").JSX.Element 
             const isCurrent = currentStep === step; 
             return (
               <React.Fragment key={step}>
-                <div className={`flex items-center gap-2 ${isCurrent ? 'text-[#0f4c81]' : isCompleted ? 'text-[#0f4c81]' : 'text-[#6b7280]'}`}>
-                  <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${isCurrent ? 'bg-[#0f4c81] text-white' : isCompleted ? 'bg-[#0f4c81] text-white' : 'bg-[#e5e7eb] text-[#6b7280]'}`}>
+                <div className={`flex items-center gap-2 ${isCurrent || isCompleted ? 'text-[#0f4c81]' : 'text-[#6b7280]'}`}>
+              <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${isCurrent ? 'bg-[#0f4c81] text-white' : isCompleted ? 'bg-[#0f4c81] text-white' : 'bg-[#e5e7eb] text-[#6b7280]'}`}>
             {isCompleted ? <Check className="w-4 h-4" /> : index + 1}
           </span>
           <span className="text-sm font-medium capitalize">{step}</span>
