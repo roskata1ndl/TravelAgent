@@ -109,11 +109,12 @@ export default function CheckoutPage() {
 
         {/* Progress */}
         <div className="flex items-center justify-center gap-4 mb-12">
-          {['shipping', 'payment', 'review'].map((step, index) => {
-            const steps = ['shipping', 'payment', 'review'];
-            const currentIndex = steps.indexOf(currentStep);
+          {(['shipping', 'payment', 'review'] as const).map((step, index) => {
+            const steps = ['shipping', 'payment', 'review'] as const;
+            const validStep = currentStep as 'shipping' | 'payment' | 'review';
+            const currentIndex = steps.indexOf(validStep);
             const isCompleted = index < currentIndex;
-            const isCurrent = currentStep === step;
+            const isCurrent = validStep === step;
             return (
               <React.Fragment key={step}>
                 <div className={`flex items-center gap-2 ${isCurrent ? 'text-[#0f4c81]' : isCompleted ? 'text-[#0f4c81]' : 'text-[#6b7280]'}`}>
