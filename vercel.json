@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd travelagent && npm run build",
+  "outputDirectory": "travelagent/.next",
+  "framework": "nextjs"
+}
