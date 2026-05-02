@@ -11,7 +11,7 @@ interface FAQAccordionProps {
   index: number;
 }
 
-function FAQAccordion({ faq, index }: FAQAccordionProps) {
+export function FAQAccordion({ faq, index }: FAQAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
