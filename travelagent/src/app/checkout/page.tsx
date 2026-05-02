@@ -111,9 +111,7 @@ export default function CheckoutPage() {
         <div className="flex items-center justify-center gap-4 mb-12">
           {(['shipping', 'payment', 'review'] as const).map((step, index) => {
             const steps = ['shipping', 'payment', 'review'] as const;
-            const currentIndex = steps.includes(currentStep as any)
-              ? steps.indexOf(currentStep as typeof steps[number])
-              : steps.length;
+            const currentIndex = steps.indexOf(currentStep as typeof steps[number]);
             const isCompleted = index < currentIndex;
             const isCurrent = currentStep === step;
             return (
