@@ -109,17 +109,23 @@ export default function CheckoutPage() {
 
         {/* Progress */}
         <div className="flex items-center justify-center gap-4 mb-12">
-          {['shipping', 'payment', 'review'].map((step, index) => (
-            <React.Fragment key={step}>
-              <div className={`flex items-center gap-2 ${currentStep === step ? 'text-[#0f4c81]' : currentStep === 'confirmation' || (index < ['shipping', 'payment', 'review'].indexOf(currentStep)) ? 'text-[#6b7280]' : 'text-[#6b7280]'}`}>
-                <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${currentStep === step ? 'bg-[#0f4c81] text-white' : 'bg-[#e5e7eb] text-[#6b7280]'}`}>
-                  {index + 1}
-                </span>
-                <span className="text-sm font-medium capitalize">{step}</span>
-              </div>
-              {index < 2 && <div className="w-16 h-px bg-[#e5e7eb]" />}
-            </React.Fragment>
-          ))}
+          {['shipping', 'payment', 'review'].map((step, index) => {
+            const steps = ['shipping', 'payment', 'review'];
+            const currentIndex = steps.indexOf(currentStep);
+            const isCompleted = index < currentIndex;
+            const isCurrent = currentStep === step;
+            return (
+              <React.Fragment key={step}>
+                <div className={`flex items-center gap-2 ${isCurrent ? 'text-[#0f4c81]' : isCompleted ? 'text-[#0f4c81]' : 'text-[#6b7280]'}`}>
+                  <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${isCurrent ? 'bg-[#0f4c81] text-white' : isCompleted ? 'bg-[#0f4c81] text-white' : 'bg-[#e5e7eb] text-[#6b7280]'}`}>
+                    {isCompleted ? <Check className="w-4 h-4" /> : index + 1}
+                  </span>
+                  <span className="text-sm font-medium capitalize">{step}</span>
+                </div>
+                {index < 2 && <div className="w-16 h-px bg-[#e5e7eb]" />}
+              </React.Fragment>
+            );
+          })}
         </div>
 
         <div className="grid lg:grid-cols-3 gap-12">
