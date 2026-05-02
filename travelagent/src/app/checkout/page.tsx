@@ -4,48 +4,35 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Check, ArrowLeft, Lock, CreditCard, Truck } from 'lucide-react';
+import { Check, ArrowLeft, Lock, CreditCard } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { formatPrice } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 
 type Step = 'shipping' | 'payment' | 'review' | 'confirmation';
 
-export default function CheckoutPage(): import("react/jsx-runtime").JSX.Element {
+const STEPS = ['shipping', 'payment', 'review'] as const;
+type ProgressStep = typeof STEPS[number];
+
+export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart();
   const [currentStep, setCurrentStep] = useState<Step>('shipping');
   const [shippingInfo, setShippingInfo] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    zip: '',
-    country: 'United States',
+    firstName: '', lastName: '', email: '', phone: '',
+    address: '', city: '', state: '', zip: '', country: 'United States',
   });
   const [paymentInfo, setPaymentInfo] = useState({
-    cardNumber: '',
-    name: '',
-    expiry: '',
-    cvv: '',
+    cardNumber: '', name: '', expiry: '', cvv: '',
   });
   const [isProcessing, setIsProcessing] = useState(false);
 
   const shipping = subtotal >= 150 ? 0 : 15;
   const total = subtotal + shipping;
 
-  const handleShippingSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setCurrentStep('payment');
-  };
+  const currentProgressIndex = STEPS.indexOf(currentStep as ProgressStep);
 
-  const handlePaymentSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setCurrentStep('review');
-  };
-
+  const handleShippingSubmit = (e: React.FormEvent) => { e.preventDefault(); setCurrentStep('payment'); };
+  const handlePaymentSubmit = (e: React.FormEvent) => { e.preventDefault(); setCurrentStep('review'); };
   const handleOrderSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
@@ -55,10 +42,42 @@ export default function CheckoutPage(): import("react/jsx-runtime").JSX.Element 
     setIsProcessing(false);
   };
 
+  if (currentStep === 'confirmation') {
+    return (
+      <div className="min-h-screen pt-20">
+        <section className="py-20">
+          <div className="max-w-xl mx-auto px-6 lg:px-8 text-center">
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
+              <div className="w-20 h-20 rounded-full bg-[#0f4c81]/10 flex items-center justify-center mx-auto mb-6">
+                <Check className="w-10 h-10 text-[#0f4c81]" />
+              </div>
+              <h1 className="text-3xl font-semibold text-[#1a1a2e] mb-4">Order confirmed!</h1>
+              <p className="text-[#6b7280] mb-2">Thank you for your purchase. A confirmation email has been sent to:</p>
+              <p className="text-[#1a1a2e] font-medium mb-8">{shippingInfo.email}</p>
+              <div className="bg-[#f8f9fa] rounded-xl p-6 mb-8 text-left">
+                <h3 className="font-semibold text-[#1a1a2e] mb-4">Order details</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-[#6b7280]">Order number</span>
+                    <span className="text-[#1a1a2e] font-medium">#TA-{Date.now().toString().slice(-6)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[#6b7280]">Estimated delivery</span>
+                    <span className="text-[#1a1a2e]">5-7 business days</span>
+                  </div>
+                </div>
+              </div>
+              <Link href="/shop"><Button size="lg">Continue Shopping</Button></Link>
+            </motion.div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen pt-20 bg-[#f8f9fa]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-        {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Link href="/cart" className="flex items-center gap-2 text-sm text-[#6b7280] hover:text-[#1a1a2e]">
             <ArrowLeft className="w-4 h-4" />
@@ -72,19 +91,17 @@ export default function CheckoutPage(): import("react/jsx-runtime").JSX.Element 
 
         {/* Progress */}
         <div className="flex items-center justify-center gap-4 mb-12">
-          {(['shipping', 'payment', 'review'] as const).map((step, index) => {
-            const steps = ['shipping', 'payment', 'review'] as const;
-            const currentIndex = (steps as readonly string[]).indexOf(currentStep);
-            const isCompleted = index < currentIndex;
-            const isCurrent = currentStep === step; 
+          {STEPS.map((step, index) => {
+            const isCompleted = index < currentProgressIndex;
+            const isCurrent = currentStep === step;
             return (
               <React.Fragment key={step}>
                 <div className={`flex items-center gap-2 ${isCurrent || isCompleted ? 'text-[#0f4c81]' : 'text-[#6b7280]'}`}>
-              <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${isCurrent ? 'bg-[#0f4c81] text-white' : isCompleted ? 'bg-[#0f4c81] text-white' : 'bg-[#e5e7eb] text-[#6b7280]'}`}>
-            {isCompleted ? <Check className="w-4 h-4" /> : index + 1}
-          </span>
-          <span className="text-sm font-medium capitalize">{step}</span>
-        </div>
+                  <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${isCurrent || isCompleted ? 'bg-[#0f4c81] text-white' : 'bg-[#e5e7eb] text-[#6b7280]'}`}>
+                    {isCompleted ? <Check className="w-4 h-4" /> : index + 1}
+                  </span>
+                  <span className="text-sm font-medium capitalize">{step}</span>
+                </div>
                 {index < 2 && <div className="w-16 h-px bg-[#e5e7eb]" />}
               </React.Fragment>
             );
@@ -92,9 +109,9 @@ export default function CheckoutPage(): import("react/jsx-runtime").JSX.Element 
         </div>
 
         <div className="grid lg:grid-cols-3 gap-12">
-          {/* Form */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl p-6 md:p-8">
+
               {currentStep === 'shipping' && (
                 <form onSubmit={handleShippingSubmit}>
                   <h2 className="text-xl font-semibold text-[#1a1a2e] mb-6">Shipping information</h2>
@@ -170,9 +187,7 @@ export default function CheckoutPage(): import("react/jsx-runtime").JSX.Element 
                     </div>
                   </div>
                   <div className="flex gap-4 mt-8">
-                    <button type="button" onClick={() => setCurrentStep('shipping')} className="px-6 py-3 border border-[#e5e7eb] rounded-full text-sm font-medium hover:bg-[#f8f9fa] transition-colors">
-                      Back
-                    </button>
+                    <button type="button" onClick={() => setCurrentStep('shipping')} className="px-6 py-3 border border-[#e5e7eb] rounded-full text-sm font-medium hover:bg-[#f8f9fa] transition-colors">Back</button>
                     <Button type="submit" size="lg" className="flex-1">Review order</Button>
                   </div>
                 </form>
@@ -210,15 +225,14 @@ export default function CheckoutPage(): import("react/jsx-runtime").JSX.Element 
                     </div>
                   </div>
                   <div className="flex gap-4 mt-8">
-                    <button type="button" onClick={() => setCurrentStep('payment')} className="px-6 py-3 border border-[#e5e7eb] rounded-full text-sm font-medium hover:bg-[#f8f9fa] transition-colors">
-                      Back
-                    </button>
+                    <button type="button" onClick={() => setCurrentStep('payment')} className="px-6 py-3 border border-[#e5e7eb] rounded-full text-sm font-medium hover:bg-[#f8f9fa] transition-colors">Back</button>
                     <Button type="submit" size="lg" className="flex-1" isLoading={isProcessing}>
                       Place order — {formatPrice(total)}
                     </Button>
                   </div>
                 </form>
               )}
+
             </div>
           </div>
 
