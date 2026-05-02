@@ -24,7 +24,8 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const heroHeight = document.querySelector('[data-hero-section]')?.clientHeight || window.innerHeight;
+      setIsScrolled(window.scrollY > heroHeight);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -48,7 +49,7 @@ export function Navbar() {
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           isScrolled
             ? 'bg-white/95 backdrop-blur-md shadow-lg'
-            : 'bg-white/95 backdrop-blur-md shadow-sm'
+            : 'bg-transparent'
         )}
       >
         <nav className="max-w-7xl mx-auto px-6 lg:px-8">

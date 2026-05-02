@@ -1,8 +1,14 @@
 {
   "env": {
-    "ANTHROPIC_BASE_URL": "http://localhost:11434",
-    "ANTHROPIC_AUTH_TOKEN": "ollama",
-    "ANTHROPIC_API_KEY": ""
+    "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+    "ANTHROPIC_AUTH_TOKEN": "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",
+    "ANTHROPIC_API_KEY": "",
+    "ANTHROPIC_MODEL": "openrouter/free",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "openrouter/free",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "openrouter/free",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "openrouter/free",
+    "ANTHROPIC_SMALL_FAST_MODEL": "openrouter/free",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "openrouter/free"
   },
   "permissions": {
     "allow": [
