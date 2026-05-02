@@ -3,12 +3,12 @@
     "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
     "ANTHROPIC_AUTH_TOKEN": "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",
     "ANTHROPIC_API_KEY": "",
-    "ANTHROPIC_MODEL": "openrouter/free",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "openrouter/free",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "openrouter/free",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "openrouter/free",
-    "ANTHROPIC_SMALL_FAST_MODEL": "openrouter/free",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "openrouter/free"
+    "ANTHROPIC_MODEL": "google/gemma-4-31b-it:free",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "google/gemma-4-31b-it:free",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "google/gemma-4-31b-it:free",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "google/gemma-4-31b-it:free",
+    "ANTHROPIC_SMALL_FAST_MODEL": "google/gemma-4-31b-it:free",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "google/gemma-4-31b-it:free"
   },
   "permissions": {
     "allow": [
