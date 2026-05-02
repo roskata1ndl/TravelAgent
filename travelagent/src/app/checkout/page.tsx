@@ -113,7 +113,7 @@ export default function CheckoutPage(): import("react/jsx-runtime").JSX.Element 
             const steps = ['shipping', 'payment', 'review'] as const;
             const currentIndex = steps.indexOf(currentStep as typeof steps[number]);
             const isCompleted = index < currentIndex;
-            const isCurrent = currentStep === step;   
+            const isCurrent = currentStep === step; 
             return (
               <React.Fragment key={step}>
                 <div className={`flex items-center gap-2 ${isCurrent ? 'text-[#0f4c81]' : isCompleted ? 'text-[#0f4c81]' : 'text-[#6b7280]'}`}>
